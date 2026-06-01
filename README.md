@@ -50,3 +50,8 @@ D:\豆神\豆神\.tools\Python311\python.exe -m streamlit run src/live_ai_brain/
 ```
 
 启动后，Streamlit 会在 PowerShell 中打印 Local URL，并通常会自动打开浏览器；如果没有自动打开，请复制 Local URL 到浏览器访问。
+
+上传说明：
+
+- 系统已把单个文件上传上限设置为 2048MB，方便上传直播录屏。
+- 如果录屏超过 2GB，建议先压缩视频，或先登记百度网盘链接，后续再做大文件素材库。
