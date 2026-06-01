@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第一期落地方案对比</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --blue: #2563eb;
+      --green: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 24px 44px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      max-width: 900px;
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    }
+    .card header {
+      padding: 16px 18px;
+      color: white;
+      min-height: 96px;
+    }
+    .card:nth-child(1) header { background: var(--blue); }
+    .card:nth-child(2) header { background: var(--green); }
+    .card:nth-child(3) header { background: var(--amber); }
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      letter-spacing: 0;
+    }
+    .card header p {
+      margin: 0;
+      line-height: 1.55;
+      font-size: 13px;
+      opacity: .94;
+    }
+    .card section {
+      padding: 16px 18px;
+      border-top: 1px solid var(--line);
+    }
+    .label {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+    }
+    ul {
+      margin: 0;
+      padding-left: 19px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    .recommend {
+      display: grid;
+      grid-template-columns: .32fr .68fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+    .badge, .plan {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .badge {
+      border-left: 4px solid var(--green);
+    }
+    .badge h2, .plan h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    .badge p, .plan p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fafafa;
+      min-height: 92px;
+    }
+    .step b {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+    .step span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    @media (max-width: 940px) {
+      .cards, .recommend, .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>第一期落地方案对比</h1>
+    <p class="subtitle">你选择了“直播团队统一工作台”。这里有三种做法，区别在于速度、稳定性和后续扩展能力。</p>
+
+    <section class="cards">
+      <article class="card">
+        <header>
+          <h2>A. 简易聊天助手</h2>
+          <p>最快上线，像一个懂产品资料的对话框。</p>
+        </header>
+        <section>
+          <p class="label">适合</p>
+          <ul>
+            <li>快速验证 AI 是否能回答产品问题</li>
+            <li>老板和运营随时提问</li>
+            <li>开发成本最低</li>
+          </ul>
+        </section>
+        <section>
+          <p class="label">问题</p>
+          <ul>
+            <li>团队不知道该怎么问</li>
+            <li>输出不稳定，格式难统一</li>
+            <li>不适合沉淀日常 SOP</li>
+          </ul>
+        </section>
+      </article>
+
+      <article class="card">
+        <header>
+          <h2>B. 任务模板工作台</h2>
+          <p>每个常见工作都有入口，团队填信息，AI 输出成品。</p>
+        </header>
+        <section>
+          <p class="label">适合</p>
+          <ul>
+            <li>主播、场控、短视频、设计每天使用</li>
+            <li>话术、贴片、脚本、问答、合规统一管理</li>
+            <li>第一期就能形成工作流</li>
+          </ul>
+        </section>
+        <section>
+          <p class="label">问题</p>
+          <ul>
+            <li>需要先定义几个高频模板</li>
+            <li>要维护价格、权益、禁用表达版本</li>
+            <li>比纯聊天多一点产品设计</li>
+          </ul>
+        </section>
+      </article>
+
+      <article class="card">
+        <header>
+          <h2>C. 数据闭环系统</h2>
+          <p>接入直播、竞品、千川和素材数据，自动给优化建议。</p>
+        </header>
+        <section>
+          <p class="label">适合</p>
+          <ul>
+            <li>长期做直播间增长中枢</li>
+            <li>复盘每场直播和每条素材</li>
+            <li>输出投放、话术、画面联动建议</li>
+          </ul>
+        </section>
+        <section>
+          <p class="label">问题</p>
+          <ul>
+            <li>数据口径和接口会拖慢第一期</li>
+            <li>视频理解成本更高</li>
+            <li>需要更多历史数据做验证</li>
+          </ul>
+        </section>
+      </article>
+    </section>
+
+    <section class="recommend">
+      <div class="badge">
+        <h2>我的推荐</h2>
+        <p>先做 B：任务模板工作台。它既能马上服务直播团队，又不会把项目做成空泛聊天工具。C 的数据闭环可以作为第二阶段逐步接上。</p>
+      </div>
+      <div class="plan">
+        <h2>B 方案第一版结构</h2>
+        <p>首页就是 5 个任务入口，每个入口都绑定产品知识库、表达边界、当前活动口径和固定输出格式。</p>
+        <div class="steps">
+          <div class="step"><b>选产品</b><span>窦神文言文速通等产品资料库</span></div>
+          <div class="step"><b>选任务</b><span>话术、贴片、脚本、问答、合规</span></div>
+          <div class="step"><b>补场景</b><span>直播阶段、用户异议、活动信息</span></div>
+          <div class="step"><b>生成成品</b><span>结构化输出，可复制可改写</span></div>
+          <div class="step"><b>审核入库</b><span>人工确认后沉淀为标准口径</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

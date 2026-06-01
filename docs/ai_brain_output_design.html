@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 输出格式设计</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --blue: #2563eb;
+      --green: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --violet: #7c3aed;
+      --cyan: #0891b2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    main {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 32px 24px 44px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+      max-width: 940px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+      overflow: hidden;
+    }
+    .card header {
+      padding: 15px 17px;
+      color: #fff;
+    }
+    .blue { background: var(--blue); }
+    .green { background: var(--green); }
+    .amber { background: var(--amber); }
+    .rose { background: var(--rose); }
+    .violet { background: var(--violet); }
+    .cyan { background: var(--cyan); }
+    h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    header p {
+      margin: 0;
+      color: rgba(255,255,255,.92);
+      line-height: 1.55;
+      font-size: 13px;
+    }
+    .body {
+      padding: 15px 17px 17px;
+    }
+    .block {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fafafa;
+      margin-bottom: 10px;
+    }
+    .block:last-child { margin-bottom: 0; }
+    .block b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.62;
+      font-size: 13px;
+    }
+    .wide {
+      margin-top: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+      border-left: 4px solid var(--green);
+    }
+    .wide h2 {
+      color: var(--ink);
+    }
+    .wide p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    @media (max-width: 920px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>AI 输出格式设计</h1>
+    <p class="subtitle">AI 不只回答一句话，而是按固定模板输出团队能直接用的成品。每个输出都带“依据、建议、成品、风险、下一步”。</p>
+
+    <section class="grid">
+      <article class="card">
+        <header class="blue">
+          <h2>1. 直播复盘报告</h2>
+          <p>给运营负责人看，判断本场问题和下一场优先级。</p>
+        </header>
+        <div class="body">
+          <div class="block"><b>核心结论</b><ul><li>本场最大问题</li><li>最值得保留的动作</li><li>下一场最该改的 3 件事</li></ul></div>
+          <div class="block"><b>数据诊断</b><ul><li>流量、停留、互动、点击、成交</li><li>千川消耗、转化、ROI</li><li>异常指标和可能原因</li></ul></div>
+          <div class="block"><b>证据来源</b><ul><li>引用上传表格字段</li><li>引用录屏/成片片段备注</li></ul></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="green">
+          <h2>2. 主播话术包</h2>
+          <p>给主播和场控直接使用，按直播阶段拆开。</p>
+        </header>
+        <div class="body">
+          <div class="block"><b>分段话术</b><ul><li>开场留人</li><li>痛点放大</li><li>产品解释</li><li>异议处理</li><li>成交转化</li></ul></div>
+          <div class="block"><b>场控提示</b><ul><li>什么时候上链接</li><li>什么时候提醒权益</li><li>什么时候重复激活流程</li></ul></div>
+          <div class="block"><b>禁用表达</b><ul><li>不能保证提分</li><li>不能夸大效果</li><li>价格权益以当前版本为准</li></ul></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="amber">
+          <h2>3. 短视频脚本</h2>
+          <p>给剪辑、编导和投放使用，能直接拍或改。</p>
+        </header>
+        <div class="body">
+          <div class="block"><b>脚本结构</b><ul><li>前 3 秒钩子</li><li>痛点场景</li><li>解决方法</li><li>产品植入</li><li>结尾行动</li></ul></div>
+          <div class="block"><b>素材建议</b><ul><li>口播画面</li><li>课程/教辅展示</li><li>评论区或直播间切片</li></ul></div>
+          <div class="block"><b>投放版本</b><ul><li>痛点版</li><li>方法版</li><li>权益版</li></ul></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="rose">
+          <h2>4. 贴片 / KT板文案</h2>
+          <p>给设计和直播间使用，解决画面表达不清的问题。</p>
+        </header>
+        <div class="body">
+          <div class="block"><b>画面层级</b><ul><li>主标题</li><li>3 个核心卖点</li><li>权益提醒</li><li>下单/激活提示</li></ul></div>
+          <div class="block"><b>版本输出</b><ul><li>开场留人版</li><li>讲解卖点版</li><li>成交逼单版</li></ul></div>
+          <div class="block"><b>审核提醒</b><ul><li>避免绝对化承诺</li><li>检查价格和赠品有效期</li></ul></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="violet">
+          <h2>5. 执行清单</h2>
+          <p>把 AI 建议变成团队任务，避免复盘只停在纸面。</p>
+        </header>
+        <div class="body">
+          <div class="block"><b>任务分配</b><ul><li>主播：要改哪段话术</li><li>场控：要提醒哪个节点</li><li>设计：要改哪个贴片</li><li>剪辑：要产出哪条短视频</li><li>投放：要测试哪个素材方向</li></ul></div>
+          <div class="block"><b>执行状态</b><ul><li>待确认</li><li>已采纳</li><li>已执行</li><li>下场验证</li></ul></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="cyan">
+          <h2>6. 合规检查报告</h2>
+          <p>保护直播间表达，减少因为口径错误带来的风险。</p>
+        </header>
+        <div class="body">
+          <div class="block"><b>风险分类</b><ul><li>效果承诺风险</li><li>价格权益风险</li><li>赠品库存风险</li><li>售后口径风险</li></ul></div>
+          <div class="block"><b>改写建议</b><ul><li>原句</li><li>风险原因</li><li>安全改写</li></ul></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="wide">
+      <h2>统一原则</h2>
+      <p>每个输出都必须能追溯来源，能标记是否采纳，能在下一场直播后验证效果。这样 AI 才会从“内容生成工具”升级成“直播间增长大脑”。</p>
+    </section>
+  </main>
+</body>
+</html>

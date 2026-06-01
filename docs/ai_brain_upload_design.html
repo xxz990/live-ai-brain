@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据上传与素材来源设计</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --blue: #2563eb;
+      --green: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --violet: #7c3aed;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    main {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 32px 24px 44px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+      max-width: 940px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .card, .wide, .field {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    }
+    .card {
+      padding: 16px;
+      min-height: 186px;
+    }
+    .chip {
+      display: inline-flex;
+      height: 24px;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .blue { background: var(--blue); }
+    .green { background: var(--green); }
+    .amber { background: var(--amber); }
+    .rose { background: var(--rose); }
+    .violet { background: var(--violet); }
+    h2, h3 {
+      margin: 0 0 8px;
+      letter-spacing: 0;
+    }
+    h2 { font-size: 20px; }
+    h3 { font-size: 16px; }
+    p, li {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    p { margin: 0; }
+    ul { margin: 0; padding-left: 19px; }
+    .wide {
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .field {
+      padding: 14px;
+      min-height: 145px;
+      background: #fafafa;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 106px;
+      background: #fafafa;
+    }
+    .step b {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+    .step span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 12px;
+    }
+    @media (max-width: 980px) {
+      .grid, .fields, .flow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>数据上传与素材来源设计</h1>
+    <p class="subtitle">第一版先保证“能用、稳定、口径清楚”。飞书和百度网盘可以作为来源，但系统内要沉淀成统一数据和素材记录。</p>
+
+    <section class="grid">
+      <article class="card">
+        <span class="chip blue">入口 1</span>
+        <h3>本地上传</h3>
+        <ul>
+          <li>Excel/CSV：直播数据、千川数据</li>
+          <li>Word/PDF：产品资料、话术文档</li>
+          <li>图片/视频：录屏、成片、贴片素材</li>
+        </ul>
+      </article>
+      <article class="card">
+        <span class="chip green">入口 2</span>
+        <h3>飞书表格</h3>
+        <ul>
+          <li>第一版：导出 Excel 后上传</li>
+          <li>保留飞书链接，方便追溯来源</li>
+          <li>第二版：再做自动同步</li>
+        </ul>
+      </article>
+      <article class="card">
+        <span class="chip amber">入口 3</span>
+        <h3>百度网盘素材</h3>
+        <ul>
+          <li>第一版：登记分享链接和提取码</li>
+          <li>关键素材人工下载后上传</li>
+          <li>后续再做批量归档</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="wide">
+      <h2>每场直播最小数据表</h2>
+      <p>第一版不要求你一开始就有很复杂的数据。只要每场直播能稳定提供这些字段，AI 就能开始复盘。</p>
+      <div class="fields">
+        <div class="field"><span class="chip blue">基础</span><h3>直播场次</h3><ul><li>产品名称</li><li>日期和时段</li><li>主播/场控</li><li>活动价格和权益</li></ul></div>
+        <div class="field"><span class="chip green">直播</span><h3>直播数据</h3><ul><li>曝光/进入</li><li>平均停留</li><li>互动数</li><li>商品点击/成交</li></ul></div>
+        <div class="field"><span class="chip amber">千川</span><h3>投放数据</h3><ul><li>消耗</li><li>点击率</li><li>转化率</li><li>ROI/成交成本</li></ul></div>
+        <div class="field"><span class="chip rose">素材</span><h3>内容记录</h3><ul><li>录屏链接</li><li>成片链接</li><li>主推话术</li><li>贴片/KT板版本</li></ul></div>
+      </div>
+    </section>
+
+    <section class="wide">
+      <h2>上传后的处理流程</h2>
+      <div class="flow">
+        <div class="step"><b>1. 识别来源</b><span>本地文件、飞书表、网盘链接分别记录来源。</span></div>
+        <div class="step"><b>2. 解析内容</b><span>表格转字段，文档转知识，图片视频转素材记录。</span></div>
+        <div class="step"><b>3. 校验口径</b><span>检查价格、权益、赠品、日期、产品是否匹配。</span></div>
+        <div class="step"><b>4. 生成复盘</b><span>输出问题诊断、原因假设和下一场动作。</span></div>
+        <div class="step"><b>5. 入库追踪</b><span>保存建议、执行状态和下一场效果。</span></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

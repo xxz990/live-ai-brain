@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>电商直播 AI 大脑全景图</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --blue: #2563eb;
+      --green: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --slate: #475569;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 24px 44px;
+    }
+    .top {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 20px;
+      align-items: stretch;
+      margin-bottom: 20px;
+    }
+    .hero, .note, .module, .lane, .deliverable {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    }
+    .hero { padding: 24px; }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    .note {
+      padding: 20px;
+      border-left: 4px solid var(--blue);
+    }
+    .note h2, .section-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    .note ul, .deliverable ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .module { padding: 16px; min-height: 164px; }
+    .module .tag {
+      display: inline-flex;
+      height: 24px;
+      padding: 0 9px;
+      align-items: center;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+    .tag.blue { background: var(--blue); }
+    .tag.green { background: var(--green); }
+    .tag.amber { background: var(--amber); }
+    .tag.rose { background: var(--rose); }
+    .module h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+    .module p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .lane {
+      padding: 14px;
+      position: relative;
+      min-height: 150px;
+    }
+    .lane:not(:last-child)::after {
+      content: ">";
+      position: absolute;
+      right: -11px;
+      top: 54px;
+      color: var(--slate);
+      font-weight: 700;
+      z-index: 2;
+    }
+    .lane b {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .lane span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 13px;
+    }
+    .deliverables {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .deliverable { padding: 18px; }
+    .deliverable h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+    .foot {
+      margin-top: 24px;
+      padding: 16px 18px;
+      color: var(--muted);
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 8px;
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    @media (max-width: 900px) {
+      .top, .grid, .flow, .deliverables { grid-template-columns: 1fr; }
+      .lane:not(:last-child)::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="top">
+      <div class="hero">
+        <h1>电商直播 AI 大脑</h1>
+        <p class="subtitle">核心不是“做一个聊天机器人”，而是把产品资料、直播表现、竞品动作、投放数据和素材资产变成一个可持续优化直播间的运营系统。</p>
+      </div>
+      <aside class="note">
+        <h2>当前资料状态</h2>
+        <ul>
+          <li>已有产品知识库雏形：卖点、痛点、话术、短视频脚本、表达边界。</li>
+          <li>第一阶段最适合从“知识库问答 + 话术生成 + 合规边界”启动。</li>
+          <li>后续再接直播复盘、竞品拆解、千川和成片审核。</li>
+        </ul>
+      </aside>
+    </section>
+
+    <h2 class="section-title">四层能力地图</h2>
+    <section class="grid">
+      <article class="module">
+        <div class="tag blue">Layer 1</div>
+        <h3>资料中台</h3>
+        <p>沉淀产品资料、价格权益、FAQ、话术、图片、录屏、投放素材、违规表达和版本记录。</p>
+      </article>
+      <article class="module">
+        <div class="tag green">Layer 2</div>
+        <h3>运营助手</h3>
+        <p>回答产品问题，生成主播话术、逼单节奏、短视频脚本、贴片文案和客服答疑。</p>
+      </article>
+      <article class="module">
+        <div class="tag amber">Layer 3</div>
+        <h3>分析复盘</h3>
+        <p>结合直播数据、互动数据、成交数据、千川数据，找出卡点并给出下一场调整建议。</p>
+      </article>
+      <article class="module">
+        <div class="tag rose">Layer 4</div>
+        <h3>自动审核运营</h3>
+        <p>审核成片、贴片、脚本和直播表达，发现夸大承诺、价格过期、权益不一致等风险。</p>
+      </article>
+    </section>
+
+    <h2 class="section-title">推荐的工作流</h2>
+    <section class="flow">
+      <div class="lane"><b>上传资料</b><span>产品文档、图片、直播话术、录屏、同行素材、千川报表。</span></div>
+      <div class="lane"><b>结构化整理</b><span>自动抽取卖点、痛点、权益、禁用词、常见问题和素材标签。</span></div>
+      <div class="lane"><b>AI 生成建议</b><span>输出话术、直播节奏、画面建议、脚本、贴片和投放素材方向。</span></div>
+      <div class="lane"><b>人工确认</b><span>运营负责人确认价格、权益、合规表达和品牌口径。</span></div>
+      <div class="lane"><b>复盘迭代</b><span>下一场直播后导入数据，更新知识库和策略建议。</span></div>
+    </section>
+
+    <h2 class="section-title">第一阶段可交付</h2>
+    <section class="deliverables">
+      <article class="deliverable">
+        <h3>知识库问答</h3>
+        <ul>
+          <li>按产品资料回答问题</li>
+          <li>回答带引用来源</li>
+          <li>不知道就提示待确认</li>
+        </ul>
+      </article>
+      <article class="deliverable">
+        <h3>直播话术工厂</h3>
+        <ul>
+          <li>开场、痛点、转化、逼单</li>
+          <li>按用户异议生成回应</li>
+          <li>自动避开夸大承诺</li>
+        </ul>
+      </article>
+      <article class="deliverable">
+        <h3>素材与画面建议</h3>
+        <ul>
+          <li>贴片文案方向</li>
+          <li>KT 板内容框架</li>
+          <li>短视频脚本模板</li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="foot">
+      讨论问题：第一期你更想把它做成“老板/运营能直接问的 AI 助手”，还是“直播团队每天用的工作台”？这会决定我们先做聊天入口，还是先做任务模板和素材输出流程。
+    </div>
+  </main>
+</body>
+</html>

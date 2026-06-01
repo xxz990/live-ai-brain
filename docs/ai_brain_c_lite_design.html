@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C-lite 数据闭环系统设计</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --blue: #2563eb;
+      --green: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --violet: #7c3aed;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    main {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 32px 24px 44px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+      max-width: 920px;
+    }
+    .columns {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .panel, .source, .output, .loop {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    }
+    .panel { padding: 18px; }
+    .panel h2, .section-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .source {
+      padding: 15px;
+      min-height: 150px;
+    }
+    .chip {
+      display: inline-flex;
+      height: 24px;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      color: white;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .blue { background: var(--blue); }
+    .green { background: var(--green); }
+    .amber { background: var(--amber); }
+    .rose { background: var(--rose); }
+    .violet { background: var(--violet); }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+    p, li {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    p { margin: 0; }
+    ul { margin: 0; padding-left: 19px; }
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0 22px;
+    }
+    .loop {
+      padding: 14px;
+      min-height: 132px;
+      position: relative;
+    }
+    .loop:not(:last-child)::after {
+      content: ">";
+      position: absolute;
+      right: -11px;
+      top: 48px;
+      color: #475569;
+      font-weight: 700;
+    }
+    .outputs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .output {
+      padding: 15px;
+      min-height: 155px;
+    }
+    .risk {
+      border-left: 4px solid var(--rose);
+    }
+    .primary {
+      border-left: 4px solid var(--green);
+    }
+    @media (max-width: 960px) {
+      .columns, .source-grid, .pipeline, .outputs { grid-template-columns: 1fr; }
+      .loop:not(:last-child)::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>C-lite 第一版：直播数据闭环系统</h1>
+    <p class="subtitle">第一版围绕你能持续提供的 A/B/D 数据：每场直播数据、千川投放数据、自己直播录屏/成片素材。目标是每场直播后自动产出下一场可执行优化清单。</p>
+
+    <section class="columns">
+      <article class="panel primary">
+        <h2>第一版目标</h2>
+        <p>不是做一个只会聊天的 AI，而是做一个“直播复盘到下一场执行”的系统：看数据、看内容、给动作、记录执行、下次对比。</p>
+      </article>
+      <article class="panel risk">
+        <h2>边界提醒</h2>
+        <p>第一版先不承诺自动调千川账户、不做实时直播控制、不直接替人审核最终发布。AI 给建议，人确认后执行。</p>
+      </article>
+    </section>
+
+    <h2 class="section-title">输入数据</h2>
+    <section class="source-grid">
+      <article class="source">
+        <span class="chip blue">A</span>
+        <h3>直播数据表</h3>
+        <ul>
+          <li>观看、停留、互动、点击、成交</li>
+          <li>分时段数据和关键节点</li>
+          <li>活动、价格、赠品、主播信息</li>
+        </ul>
+      </article>
+      <article class="source">
+        <span class="chip green">B</span>
+        <h3>千川投放数据</h3>
+        <ul>
+          <li>素材消耗、点击率、转化率</li>
+          <li>ROI、成交成本、计划状态</li>
+          <li>高消耗低转化素材识别</li>
+        </ul>
+      </article>
+      <article class="source">
+        <span class="chip amber">D</span>
+        <h3>自有录屏/成片素材</h3>
+        <ul>
+          <li>主播话术、画面、贴片、节奏</li>
+          <li>短视频成片和切片素材</li>
+          <li>违规风险和口径一致性</li>
+        </ul>
+      </article>
+    </section>
+
+    <h2 class="section-title" style="margin-top:22px">闭环流程</h2>
+    <section class="pipeline">
+      <div class="loop"><span class="chip blue">1</span><h3>导入</h3><p>上传直播数据、千川表、录屏或成片，并选择对应产品。</p></div>
+      <div class="loop"><span class="chip green">2</span><h3>诊断</h3><p>AI 找出流量、停留、点击、成交和内容表达的问题。</p></div>
+      <div class="loop"><span class="chip amber">3</span><h3>建议</h3><p>生成下一场话术、贴片、短视频、投放素材和节奏调整。</p></div>
+      <div class="loop"><span class="chip violet">4</span><h3>执行</h3><p>运营确认建议，标记哪些会执行，分配给主播、设计、剪辑和投放。</p></div>
+      <div class="loop"><span class="chip rose">5</span><h3>验证</h3><p>下一场导入数据后，对比执行前后变化，沉淀有效打法。</p></div>
+    </section>
+
+    <h2 class="section-title">AI 每场复盘后输出什么</h2>
+    <section class="outputs">
+      <article class="output">
+        <span class="chip blue">复盘报告</span>
+        <h3>本场问题诊断</h3>
+        <p>解释哪里掉人、哪里点击低、哪里转化弱，并标出可能原因。</p>
+      </article>
+      <article class="output">
+        <span class="chip green">执行清单</span>
+        <h3>下一场改什么</h3>
+        <p>给主播、场控、设计、剪辑、投放分别生成可执行任务。</p>
+      </article>
+      <article class="output">
+        <span class="chip amber">内容资产</span>
+        <h3>直接生成素材</h3>
+        <p>输出话术、贴片文案、KT板框架、短视频脚本和标题。</p>
+      </article>
+      <article class="output">
+        <span class="chip rose">风险检查</span>
+        <h3>合规和口径</h3>
+        <p>检查保证提分、权益说错、价格过期、夸大承诺等风险。</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

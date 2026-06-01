@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C-lite 第一版模块设计</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --blue: #2563eb;
+      --green: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --violet: #7c3aed;
+      --cyan: #0891b2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    main {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 32px 24px 44px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+      max-width: 940px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 16px;
+      min-height: 580px;
+    }
+    .sidebar, .screen, .tile, .flow {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    }
+    .sidebar {
+      padding: 14px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 42px;
+      padding: 0 11px;
+      border-radius: 7px;
+      margin-bottom: 6px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .nav-item.active {
+      background: #eff6ff;
+      color: var(--blue);
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--line);
+      flex: 0 0 auto;
+    }
+    .active .dot { background: var(--blue); }
+    .screen {
+      padding: 18px;
+    }
+    .screen-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    h2 {
+      margin: 0 0 7px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 6px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .tile {
+      padding: 15px;
+      min-height: 150px;
+    }
+    .chip {
+      display: inline-flex;
+      height: 23px;
+      align-items: center;
+      padding: 0 8px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .blue { background: var(--blue); }
+    .green { background: var(--green); }
+    .amber { background: var(--amber); }
+    .rose { background: var(--rose); }
+    .violet { background: var(--violet); }
+    .cyan { background: var(--cyan); }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 13px;
+    }
+    .flow {
+      padding: 16px;
+    }
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fafafa;
+      min-height: 105px;
+    }
+    .step b {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+    .step span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 12px;
+    }
+    @media (max-width: 980px) {
+      .layout, .tiles, .flow-grid { grid-template-columns: 1fr; }
+      .sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+      .nav-item { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>第一版模块设计</h1>
+    <p class="subtitle">这是给直播团队使用的 C-lite 工作台。它不是只有聊天框，而是围绕“每场直播复盘 -> 下一场执行 -> 再验证”的日常流程设计。</p>
+
+    <section class="layout">
+      <aside class="sidebar">
+        <div class="nav-item active"><span class="dot"></span>复盘首页</div>
+        <div class="nav-item"><span class="dot"></span>数据导入</div>
+        <div class="nav-item"><span class="dot"></span>AI 诊断</div>
+        <div class="nav-item"><span class="dot"></span>内容工厂</div>
+        <div class="nav-item"><span class="dot"></span>执行清单</div>
+        <div class="nav-item"><span class="dot"></span>知识库</div>
+        <div class="nav-item"><span class="dot"></span>合规口径</div>
+      </aside>
+
+      <section class="screen">
+        <div class="screen-head">
+          <div>
+            <h2>复盘首页</h2>
+            <p>按产品和直播场次查看问题、建议、执行状态和效果对比。</p>
+          </div>
+          <div class="button">新建复盘</div>
+        </div>
+
+        <div class="tiles">
+          <article class="tile">
+            <span class="chip blue">01</span>
+            <h3>数据导入</h3>
+            <ul>
+              <li>直播数据表</li>
+              <li>千川投放表</li>
+              <li>录屏/成片素材</li>
+            </ul>
+          </article>
+          <article class="tile">
+            <span class="chip green">02</span>
+            <h3>AI 诊断</h3>
+            <ul>
+              <li>流量和停留问题</li>
+              <li>点击和成交问题</li>
+              <li>话术和画面问题</li>
+            </ul>
+          </article>
+          <article class="tile">
+            <span class="chip amber">03</span>
+            <h3>内容工厂</h3>
+            <ul>
+              <li>新版直播话术</li>
+              <li>贴片/KT板文案</li>
+              <li>短视频脚本</li>
+            </ul>
+          </article>
+          <article class="tile">
+            <span class="chip violet">04</span>
+            <h3>执行清单</h3>
+            <ul>
+              <li>分配给主播/场控</li>
+              <li>分配给设计/剪辑</li>
+              <li>分配给投放</li>
+            </ul>
+          </article>
+          <article class="tile">
+            <span class="chip cyan">05</span>
+            <h3>知识库</h3>
+            <ul>
+              <li>产品资料</li>
+              <li>价格权益版本</li>
+              <li>FAQ 和异议处理</li>
+            </ul>
+          </article>
+          <article class="tile">
+            <span class="chip rose">06</span>
+            <h3>合规口径</h3>
+            <ul>
+              <li>禁用表达</li>
+              <li>风险提示</li>
+              <li>审核记录</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="flow">
+          <h3>用户每天怎么用</h3>
+          <div class="flow-grid">
+            <div class="step"><b>选产品</b><span>选择窦神文言文速通或其他产品</span></div>
+            <div class="step"><b>传数据</b><span>上传直播表、千川表、录屏或成片</span></div>
+            <div class="step"><b>看诊断</b><span>查看 AI 找到的问题和证据</span></div>
+            <div class="step"><b>拿内容</b><span>生成话术、贴片、脚本和素材建议</span></div>
+            <div class="step"><b>标执行</b><span>记录采纳了哪些建议，下一场验证</span></div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
