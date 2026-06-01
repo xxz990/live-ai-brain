@@ -9,10 +9,13 @@ from live_ai_brain.models import LiveMetrics, QianchuanMetrics
 
 def _first_row(path: Path | str) -> dict[str, object]:
     file_path = Path(path)
-    if file_path.suffix.lower() in {".xlsx", ".xls"}:
-        frame = pd.read_excel(file_path)
-    else:
-        frame = pd.read_csv(file_path)
+    try:
+        if file_path.suffix.lower() in {".xlsx", ".xls"}:
+            frame = pd.read_excel(file_path)
+        else:
+            frame = pd.read_csv(file_path)
+    except pd.errors.EmptyDataError as exc:
+        raise ValueError(f"{file_path} 没有数据行") from exc
     if frame.empty:
         raise ValueError(f"{file_path} 没有数据行")
     return frame.iloc[0].to_dict()
