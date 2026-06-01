@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from pathlib import Path
+import re
+from pathlib import Path, PurePosixPath
+from uuid import uuid4
 
 import streamlit as st
 
@@ -16,14 +18,32 @@ from live_ai_brain.replay import build_replay_report
 
 
 UPLOAD_DIR = Path("data") / "uploads"
+_SAFE_FILENAME_RE = re.compile(r"[^A-Za-z0-9._-]+")
 PRODUCT_DIR = Path("products") / "窦神文言文速通"
 
 
 def _save_uploaded_file(uploaded_file: st.runtime.uploaded_file_manager.UploadedFile) -> Path:
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-    target = UPLOAD_DIR / uploaded_file.name
+    raw_name = str(uploaded_file.name or "upload")
+    base_name = PurePosixPath(raw_name.replace("\\", "/")).name
+    source_path = Path(base_name)
+    suffix = _SAFE_FILENAME_RE.sub("", source_path.suffix)[:16]
+    stem = _SAFE_FILENAME_RE.sub("_", source_path.stem).strip("._-") or "upload"
+    target = UPLOAD_DIR / f"{stem[:80]}_{uuid4().hex[:12]}{suffix}"
+    upload_root = UPLOAD_DIR.resolve()
+    if not target.resolve().is_relative_to(upload_root):
+        raise ValueError("Unsafe upload filename")
     target.write_bytes(uploaded_file.getbuffer())
     return target
+
+
+def _show_replay_error(exc: Exception, *, expected_data_error: bool) -> None:
+    if expected_data_error:
+        st.error("无法生成复盘：请检查上传的数据文件是否正确，表头、字段和数字格式需要与模板一致。")
+    else:
+        st.error("无法生成复盘：系统处理时遇到问题，请稍后重试或联系技术同事。")
+    with st.expander("技术细节"):
+        st.caption(f"{type(exc).__name__}: {exc}")
 
 
 def _show_markdown_list(items: list[str]) -> None:
@@ -75,8 +95,10 @@ def main() -> None:
                 _show_markdown_list(report.diagnoses)
                 st.subheader("下一场动作")
                 _show_markdown_list(report.next_actions)
+            except (ValueError, KeyError, TypeError, UnicodeDecodeError) as exc:
+                _show_replay_error(exc, expected_data_error=True)
             except Exception as exc:  # pragma: no cover - Streamlit UI guard
-                st.error(f"复盘生成失败：{exc}")
+                _show_replay_error(exc, expected_data_error=False)
         else:
             st.info("请上传直播数据表和千川数据表，系统会自动保存到 data/uploads 并生成复盘。")
 

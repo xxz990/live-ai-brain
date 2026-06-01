@@ -36,7 +36,17 @@ AI能够根据资料回答问题。
 
 运行方式：
 
+先打开 PowerShell，并进入本项目/当前 worktree 目录，例如：
+
+```powershell
+cd D:\豆神\豆神\.worktrees\live-commerce-ai-brain-c-lite
+```
+
+然后安装并启动 Streamlit：
+
 ```powershell
 D:\豆神\豆神\.tools\Python311\python.exe -m pip install -e ".[dev]"
 D:\豆神\豆神\.tools\Python311\python.exe -m streamlit run src/live_ai_brain/app.py
 ```
+
+启动后，Streamlit 会在 PowerShell 中打印 Local URL，并通常会自动打开浏览器；如果没有自动打开，请复制 Local URL 到浏览器访问。
