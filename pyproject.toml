@@ -1,0 +1,19 @@
+[project]
+name = "live-commerce-ai-brain"
+version = "0.1.0"
+description = "C-lite MVP for live commerce AI operations"
+requires-python = ">=3.11"
+dependencies = [
+  "streamlit>=1.35",
+  "pandas>=2.2",
+  "openpyxl>=3.1",
+  "python-docx>=1.1",
+  "pypdf>=4.2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.2"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
